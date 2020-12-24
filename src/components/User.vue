@@ -107,7 +107,6 @@ export default {
 
 <style scoped>
 .content {
-  /*background-color: rebeccapurple;*/
   height: 96%;
   display: flex;
   flex-direction: column;

@@ -4,6 +4,8 @@ import ElementUI from 'element-ui'
 import VueRouter from 'vue-router'
 import User from './components/User'
 import Summary from './components/Summary'
+import Goods from './components/Goods'
+import SubGoods from './components/SubGoods'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
@@ -15,6 +17,10 @@ let router = new VueRouter({
             path: '/user', component: User,
         }, {
             path: '/summary', component: Summary
+        }, {
+            path: '/goods', component: Goods
+        }, {
+            path: '/subGoods', component: SubGoods
         }
     ]
 })

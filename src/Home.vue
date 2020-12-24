@@ -38,6 +38,21 @@
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+
+          <el-submenu index="3">
+            <template slot="title">
+              <i class="el-icon-goods"></i>
+              <span>商品中心</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="3-1">
+                所有商品
+              </el-menu-item>
+              <el-menu-item index="3-2">
+                商品规格
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
         </el-menu>
       </div>
     </el-drawer>
@@ -56,12 +71,17 @@ export default {
       this.$set(this, "drawer", true)
     }, select_menu(index) {
       if (index != null) {
+        console.log(index)
         if (index === "1-1") {
-          this.$set(this, "drawer", false)
           this.$router.push("/user")
         } else if (index === "0") {
           this.$router.push("/summary")
+        } else if (index === "3-1") {
+          this.$router.push("/goods")
+        }else if (index === "3-2") {
+          this.$router.push("/subGoods")
         }
+        this.$set(this, "drawer", false)
       }
     }
   }
@@ -86,5 +106,6 @@ export default {
   padding-left: 20px;
   padding-right: 20px;
   overflow: hidden;
+  height: 100%;
 }
 </style>

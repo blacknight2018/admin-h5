@@ -1,6 +1,19 @@
 <template>
   <div class="content">
-    <e-charts :options="polar"></e-charts>
+    <el-card>
+      <div style="display: flex;flex-direction: row">
+        <e-charts :options="polar" :autoresize="true" style="flex-shrink: 0;flex-grow: 0;"></e-charts>
+        <div>
+          <div><i class="el-icon-s-data"></i> 总共订单 <span class="title">100</span></div>
+          <br>
+          <div><i class="el-icon-news"></i> 今日新增 <span class="title">1</span></div>
+          <br>
+          <div><i class="el-icon-money"></i> 已经支付 <span class="title">100</span></div>
+          <br>
+          <div><i class="el-icon-receiving"> 还未发货 <span class="title">1000</span></i></div>
+        </div>
+      </div>
+    </el-card>
   </div>
 </template>
 <script>
@@ -20,44 +33,37 @@ export default {
   data() {
     return {
       polar: {
-        title: {
-          text: '会员数据统计',
-          subtext: '动态数据',
-          x: 'center'
-        },
         tooltip: {
           trigger: 'item',
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-          show: true,
-          orient: 'vertical',
-          left: 'left',
-          data: ['微信访问', '公众号访问', '扫码进入', '分享进入', '搜索访问']
+          formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
         series: [
           {
             name: '访问来源',
             type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
-            data: [
-              {value: 335, name: '微信访问'},
-              {value: 310, name: '公众号访问'},
-              {value: 234, name: '扫码进入'},
-              {value: 135, name: '分享进入'},
-              {value: 1548, name: '搜索访问'}
-            ],
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: '30',
+                fontWeight: 'bold'
               }
-            }
+            },
+            labelLine: {
+              show: false
+            },
+            data: [
+              {value: 335, name: '直接访问'},
+              {value: 310, name: '邮件营销'},
+              {value: 234, name: '联盟广告'},
+              {value: 135, name: '视频广告'},
+              {value: 1548, name: '搜索引擎'}
+            ]
           }
         ]
       }
+
     }
   },
   methods: {}
@@ -67,5 +73,10 @@ export default {
 <style scoped>
 .content {
   height: 96%;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 28px;
 }
 </style>
