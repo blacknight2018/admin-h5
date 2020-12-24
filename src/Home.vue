@@ -10,6 +10,12 @@
     <el-drawer :with-header="false" :visible.sync="drawer" direction="ltr" :show-close="false">
       <div style="padding: 10px;">
         <el-menu @select="select_menu">
+          <el-menu-item index="0">
+            <template slot="title">
+              <i class="el-icon-s-data"></i>
+              <span>总览</span>
+            </template>
+          </el-menu-item>
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-user"></i>
@@ -53,6 +59,8 @@ export default {
         if (index === "1-1") {
           this.$set(this, "drawer", false)
           this.$router.push("/user")
+        } else if (index === "0") {
+          this.$router.push("/summary")
         }
       }
     }
