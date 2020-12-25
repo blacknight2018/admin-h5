@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div style="width: 380px;display: flex">
+    <div style="width: 380px;display: flex;flex:0">
       <el-input prefix-icon="el-icon-search" placeholder="请输入搜索内容"></el-input>
       <el-button icon="el-icon-search" style="flex:0;margin-left: 20px;"></el-button>
     </div>
@@ -17,6 +17,10 @@
 
       </el-table-column>
 
+      <el-table-column prop="desc" label="描述" width="180">
+
+      </el-table-column>
+
       <el-table-column label="创建时间" prop="create_time">
 
       </el-table-column>
@@ -24,6 +28,7 @@
 
     </el-table>
     <el-pagination
+        style="flex:0"
         background
         layout="prev, pager, next"
         :total="1000">
@@ -97,6 +102,7 @@ export default {
       goods: [
         {
           id: 1,
+          desc: '非常好吃的死老鼠',
           title: '三只松鼠',
           banner: ["https://gd2.alicdn.com/imgextra/i2/673449915/TB2suWKXLNNTKJjSspfXXbXIFXa_!!673449915.jpg"],
           create_time: '2012-02-02',
