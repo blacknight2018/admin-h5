@@ -63,7 +63,6 @@
           <el-collapse>
             <el-collapse-item title="">
               <el-upload
-                  action="https://jsonplaceholder.typicode.com/posts/"
                   :file-list="banner_file_list"
                   :http-request="upload_file"
                   :on-change="banner_file_change"
