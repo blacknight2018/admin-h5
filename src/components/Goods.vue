@@ -67,6 +67,7 @@
                   :file-list="banner_file_list"
                   :http-request="upload_file"
                   :on-change="banner_file_change"
+                  :on-remove="banner_file_remove"
                   list-type="picture-card">
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
@@ -81,6 +82,7 @@
                   :file-list="detail_img_file_list"
                   :http-request="upload_file"
                   :on-change="detail_img_file_change"
+                  :on-remove="detail_img_file_remove"
                   list-type="picture-card">
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
@@ -132,7 +134,13 @@ export default {
         this.$set(this, 'table_loading', false)
       })
     },
+
     //el-upload 回调函数
+    banner_file_remove(file, file_list) {
+      console.log("remove")
+      console.log(file, file_list)
+      this.banner_file_change(file, file_list)
+    },
     banner_file_change(file, file_list) {
       console.log("on-change")
       if (file.status === "success") {
@@ -147,7 +155,13 @@ export default {
         this.$set(this, 'banner_upload_list', tmp)
       }
     },
-    //el-upload 回调函数
+
+
+    detail_img_file_remove(file, file_list) {
+      console.log("remove")
+      console.log(file, file_list)
+      this.detail_img_file_change(file, file_list)
+    },
     detail_img_file_change(file, file_list) {
       if (file.status === "success") {
         let tmp = []
