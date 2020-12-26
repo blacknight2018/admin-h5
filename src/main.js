@@ -14,6 +14,7 @@ Vue.use(VueRouter)
 Vue.use(ElementUI)
 Vue.use(VueResource)
 Vue.prototype.server = "http://127.0.0.1:45678"
+Vue.prototype.upload_server = "http://m.bybyte.cn:1234"
 console.log(Vue.prototype)
 let router = new VueRouter({
     routes: [

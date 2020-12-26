@@ -62,12 +62,12 @@ export default {
       }).then(response => {
         this.$set(this, 'table_data', response.body.data.user)
         this.$set(this, 'total', response.body.data.total)
-        this.$set(this, 'loading', false)
+        this.$set(this, 'search_loading', false)
         this.$set(this, 'table_loading', false)
       })
     },
     search() {
-      this.$set(this, 'loading', true)
+      this.$set(this, 'search_loading', true)
       this.$set(this, 'offset', 0)
       this.$set(this, 'current_page', 0)
       this.get_data();
