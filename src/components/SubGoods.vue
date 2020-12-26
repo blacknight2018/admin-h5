@@ -10,7 +10,10 @@
         </el-option>
       </el-select>
     </div>
-    <el-divider></el-divider>
+    <br>
+    <div>
+      <el-button type="primary" icon="el-icon-circle-plus" size="medium" @click="plus_sub_goods">添加</el-button>
+    </div>
     <div style="overflow-y: scroll;flex:1;">
       <el-dialog :visible.sync="dialog_visible" @close="dialog_close">
         <el-form label-width="80px" :model="dialog_form">
@@ -21,7 +24,7 @@
             <el-input suffix-icon="el-icon-price-tag" style="width: 100px" v-model="dialog_form.price"></el-input>
           </el-form-item>
           <el-form-item label="商品库存">
-            <el-input suffix-icon="el-icon-box" style="width: 100px;" v-model="dialog_form.price"></el-input>
+            <el-input suffix-icon="el-icon-box" style="width: 100px;" v-model="dialog_form.stoke"></el-input>
           </el-form-item>
           <el-form-item label="商品销量">
             <el-input suffix-icon="el-icon-sell" style="width: 100px" v-model="dialog_form.sell"></el-input>
@@ -60,7 +63,12 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="dialogFormVisible = false">保 存</el-button>
+          <el-button type="primary" @click="dialog_form_visible = false" v-if="dialog_form.id!==0"
+                     @click.native="btn_save">保 存
+          </el-button>
+          <el-button type="primary" @click="dialog_form_visible = false" v-if="dialog_form.id===0"
+                     @click.native="btn_add">添加
+          </el-button>
         </div>
       </el-dialog>
       <el-table
@@ -91,6 +99,29 @@
 export default {
   name: "SubGoods",
   methods: {
+    btn_add() {
+
+    },
+    btn_save() {
+      let param = {
+        id: this.dialog_form.id,
+        img: this.img_upload_list[0],
+        price: Number(this.dialog_form.price),
+        stoke: Number(this.dialog_form.stoke),
+        sell: Number(this.dialog_form.sell),
+        template: this.template_option
+      }
+      this.$http.post(this.server + "/sub_goods", param).then(response => {
+        console.log(response)
+        if (response.body.code === 0) {
+          this.$message({
+            message: "保存成功",
+            type: "success"
+          })
+          this.$set(this, 'dialog_visible', false)
+        }
+      })
+    },
     open_detail(row) {
       this.dialog_form.id = row.id;
       this.dialog_form.price = row.price;
@@ -99,9 +130,9 @@ export default {
       this.dialog_form.sell = row.sell;
       this.dialog_form.create_time = row.create_time;
       this.dialog_form.template = row.template;
-
       this.$set(this, 'template_option', this.dialog_form.template)
       this.$set(this, 'img_file_list', [{url: this.dialog_form.img}]);
+      this.$set(this, 'img_upload_list', [this.img_file_list[0].url])
       this.$set(this, 'dialog_form', this.dialog_form);
       this.$set(this, 'dialog_visible', true)
 
@@ -163,6 +194,8 @@ export default {
         }
         this.$set(this, 'table_data', this.table_data)
       })
+    }, plus_sub_goods() {
+
     }
   },
   mounted() {
