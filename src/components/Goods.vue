@@ -5,7 +5,10 @@
       <el-button @click="search" icon="el-icon-search" style="flex:0;margin-left: 20px;"
                  :loading="search_loading"></el-button>
     </div>
-    <el-table :data="table_data" style="width: 100%" @row-click="open_goods">
+    <div>
+
+    </div>
+    <el-table :data="table_data" style="width: 100%" @row-click="open_goods" v-loading="table_loading">
       <el-table-column label="" width="100">
         <template slot-scope="scope">
           <el-image :src="scope.row.banner[0]" style="width: 50px;height: 50px;"></el-image>
@@ -46,7 +49,10 @@
           <el-input v-model="dialog_form.desc" style="width: 360px"></el-input>
         </el-form-item>
         <el-form-item label="规格模板" :label-width="dialog_form_label_width">
-          <el-input v-model="dialog_form.template" type="textarea" :rows="3"></el-input>
+          <el-input type="textarea" v-model="dialog_form.template" :rows="3">
+
+          </el-input>
+
         </el-form-item>
         <el-divider></el-divider>
         <el-form-item label="轮播图" :label-width="dialog_form_label_width">
@@ -97,7 +103,6 @@ export default {
       this.get_data();
     },
     get_data() {
-      this.$set(this, 'table_loading', true)
       this.$set(this, 'table_data', [])
       this.$http.get(this.server + "/goods", {
         params: {
@@ -110,6 +115,7 @@ export default {
           let obj = response.body.data.goods[i]
           obj.banner = JSON.parse(obj.banner)
           obj.detail_img = JSON.parse(obj.detail_img)
+          // obj.template = JSON.parse(obj.template)
           this.$set(this, 'table_data', i, obj)
         }
         this.$set(this, 'table_data', response.body.data.goods)
@@ -118,33 +124,36 @@ export default {
         this.$set(this, 'table_loading', false)
       })
     },
-
-    banner_file_change(file, fileList) {
+    //el-upload 回调函数
+    banner_file_change(file, file_list) {
       if (file.status === "success") {
         let tmp = []
-        for (let i = 0; i < fileList.length; i++) {
-          if (fileList[i].raw !== undefined && fileList[i].status === "success") {
-            tmp.push({url: fileList[i].raw.url})
+        for (let i = 0; i < file_list.length; i++) {
+          if (file_list[i].raw !== undefined && file_list[i].status === "success") {
+            tmp.push({url: file_list[i].raw.url})
           } else {
-            tmp.push({url: fileList[i].url})
+            tmp.push({url: file_list[i].url})
           }
         }
         this.$set(this, 'banner_upload_list', tmp)
       }
     },
-    detail_file_change(file, fileList) {
+    //el-upload 回调函数
+    detail_file_change(file, file_list) {
       if (file.status === "success") {
         let tmp = []
-        for (let i = 0; i < fileList.length; i++) {
-          if (fileList[i].raw !== undefined && fileList[i].status === "success") {
-            tmp.push({url: fileList[i].raw.url})
+        for (let i = 0; i < file_list.length; i++) {
+          if (file_list[i].raw !== undefined && file_list[i].status === "success") {
+            tmp.push({url: file_list[i].raw.url})
           } else {
-            tmp.push({url: fileList[i].url})
+            tmp.push({url: file_list[i].url})
           }
         }
         this.$set(this, 'detail_upload_list', tmp)
       }
     },
+
+    //el-upload 回调函数
     upload_file(param) {
       let reader = new FileReader();
       reader.readAsDataURL(param.file)
@@ -163,6 +172,7 @@ export default {
     },
     search() {
       this.$set(this, 'search_loading', true)
+      this.$set(this, 'table_loading', true)
       this.$set(this, 'offset', 0)
       this.$set(this, 'current_page', 0)
       this.get_data()
@@ -225,7 +235,7 @@ export default {
           "id": 3,
           "title": "裤子零食",
           "banner": ['https://img.alicdn.com/imgextra/i1/2209151972136/O1CN01EMZjGS1ReKdG2HCw8_!!2209151972136.jpg'],
-          "template": "[\r\n{\r\n  \"title\":\"大小\",\r\n  \"values\":[10,11,12]\r\n}\r\n,\r\n{\r\n  \"title\":\"颜色\",\r\n  \"values\":[\"red\",\"blue\",\"green\"]\r\n}\r\n,\r\n{\r\n  \"title\":\"重量\",\r\n  \"values\":[\"1kg\",\"2kg\",\"3kg\"]\r\n}\r\n\r\n]",
+          "template": "[{  'title':'大小',  'values':[10,11,12]}]",
           "create_time": "2020-12-11 18:20:02",
           "desc": "保暖好穿",
           "detail_img": ['https://img.alicdn.com/imgextra/i4/2209151972136/O1CN01T9kie31ReKdPNXBz1_!!2209151972136.jpg', 'https://img.alicdn.com/imgextra/i4/2209151972136/O1CN01ZArePy1ReKdWtmQPy_!!2209151972136.jpg', 'https://img.alicdn.com/imgextra/i2/2209151972136/O1CN01SJkm6x1ReKcUTly9g_!!2209151972136.jp']

@@ -7,9 +7,11 @@ import Summary from './components/Summary'
 import Goods from './components/Goods'
 import SubGoods from './components/SubGoods'
 import VueResource from 'vue-resource'
+import JsonViewer from 'vue-json-viewer'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
+Vue.use(JsonViewer)
 Vue.use(VueRouter)
 Vue.use(ElementUI)
 Vue.use(VueResource)

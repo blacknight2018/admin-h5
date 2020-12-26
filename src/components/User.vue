@@ -51,7 +51,6 @@ export default {
       this.get_data();
     },
     get_data() {
-      this.$set(this, 'table_loading', true)
       this.$set(this, 'table_data', [])
       this.$http.get(this.server + "/user", {
         params: {
@@ -68,6 +67,7 @@ export default {
     },
     search() {
       this.$set(this, 'search_loading', true)
+      this.$set(this, 'table_loading', true)
       this.$set(this, 'offset', 0)
       this.$set(this, 'current_page', 0)
       this.get_data();
