@@ -3,10 +3,10 @@
     <div style="flex:0">
       <el-select filterable v-model="value" value-key="id" placeholder="选择商品" @change="option_change">
         <el-option
-            v-for="item in options"
+            v-for="(item,index) in options"
             :key="item.id"
             :label="item.title"
-            :value="item.value">
+            :value="index">
         </el-option>
       </el-select>
     </div>
@@ -17,7 +17,7 @@
     <div style="overflow-y: scroll;flex:1;">
       <el-dialog :visible.sync="dialog_visible" @close="dialog_close">
         <el-form label-width="80px" :model="dialog_form">
-          <el-form-item label="规格ID">
+          <el-form-item label="规格ID" v-if="dialog_form.id!==0">
             {{ dialog_form.id }}
           </el-form-item>
           <el-form-item label="商品价格">
@@ -47,7 +47,7 @@
             </el-collapse>
 
           </el-form-item>
-          <el-form-item label="创建时间">
+          <el-form-item label="创建时间" v-if="dialog_form.id!==0">
             {{ dialog_form.create_time }}
           </el-form-item>
           <el-form-item label="商品图片">
@@ -67,17 +67,18 @@
                      @click.native="btn_save">保 存
           </el-button>
           <el-button type="primary" @click="dialog_form_visible = false" v-if="dialog_form.id===0"
-                     @click.native="btn_add">添加
+                     @click.native="btn_add">添 加
           </el-button>
         </div>
       </el-dialog>
       <el-table
           @row-click="open_detail"
+          v-loading="table_loading"
           :data="table_data"
           style="width: 100%">
         <el-table-column
             prop="id"
-            label="id"
+            label="ID"
             width="80">
         </el-table-column>
         <el-table-column
@@ -100,7 +101,24 @@ export default {
   name: "SubGoods",
   methods: {
     btn_add() {
-
+      let param = {
+        goods_id: this.options[this.value].id,
+        img: this.img_upload_list[0],
+        price: Number(this.dialog_form.price),
+        stoke: Number(this.dialog_form.stoke),
+        sell: Number(this.dialog_form.sell),
+        template: this.template_option
+      }
+      this.$http.post(this.server + "/sub_goods", param).then(response => {
+        console.log(response)
+        if (response.body.code === 0) {
+          this.$message({
+            message: "添加成功",
+            type: "success"
+          })
+          this.$set(this, 'dialog_visible', false)
+        }
+      })
     },
     btn_save() {
       let param = {
@@ -111,7 +129,7 @@ export default {
         sell: Number(this.dialog_form.sell),
         template: this.template_option
       }
-      this.$http.post(this.server + "/sub_goods", param).then(response => {
+      this.$http.put(this.server + "/sub_goods", param).then(response => {
         console.log(response)
         if (response.body.code === 0) {
           this.$message({
@@ -155,6 +173,14 @@ export default {
     },
     dialog_close() {
       this.$set(this, 'img_file_list', [])
+      this.dialog_form.id = 0;
+      this.dialog_form.price = 0;
+      this.dialog_form.img = 0;
+      this.dialog_form.stoke = 0;
+      this.dialog_form.sell = 0;
+      this.dialog_form.create_time = '';
+      this.dialog_form.template = [];
+      this.$set(this, 'dialog_form', this.dialog_form)
     },
     img_file_remove(file, file_list) {
       this.img_file_change(file, file_list)
@@ -173,6 +199,8 @@ export default {
       }
     },
     option_change(idx) {
+      this.$set(this, 'table_loading', true)
+      console.log(idx, this.options[idx])
       this.$http.get(this.server + "/sub_goods", {
         params: {
           goods_id: this.options[idx].id
@@ -192,10 +220,12 @@ export default {
           tmp.img = obj[i].img;
           this.table_data.push(tmp)
         }
+        this.$set(this, 'table_loading', false)
         this.$set(this, 'table_data', this.table_data)
       })
-    }, plus_sub_goods() {
-
+    },
+    plus_sub_goods() {
+      this.$set(this, 'dialog_visible', true)
     }
   },
   mounted() {
@@ -207,8 +237,7 @@ export default {
           let tmp = {}
           let obj = response.body.data[i]
           tmp.id = obj.id;
-          tmp.title = obj.title;
-          tmp.value = obj.id;
+          tmp.title = obj.title
           console.log(obj.id, obj.template)
           tmp.template = JSON.parse(obj.template)
           this.options.push(tmp)
@@ -238,6 +267,7 @@ export default {
       img_file_list: [{
         url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
       }],
+      table_loading: false,
       table_data: [{
         id: 1,
         create_time: '2016-05-02',
