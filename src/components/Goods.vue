@@ -5,8 +5,9 @@
       <el-button @click="search" icon="el-icon-search" style="flex:0;margin-left: 20px;"
                  :loading="search_loading"></el-button>
     </div>
+    <br>
     <div>
-
+      <el-button type="primary" icon="el-icon-circle-plus" size="medium" @click="plus_goods">添加</el-button>
     </div>
     <el-table :data="table_data" style="width: 100%" @row-click="open_goods" v-loading="table_loading">
       <el-table-column label="" width="100">
@@ -41,7 +42,10 @@
     </el-pagination>
     <el-dialog title="商品详细" :visible.sync="dialog_form_visible" @close="dialog_close">
       <el-form :model="dialog_form">
-        <el-form-item label="商品ID" :label-width="dialog_form_label_width">{{ dialog_form.id }}</el-form-item>
+        <el-form-item v-if="dialog_form.id!=0" label="商品ID" :label-width="dialog_form_label_width">{{
+            dialog_form.id
+          }}
+        </el-form-item>
         <el-form-item label="商品名称" :label-width="dialog_form_label_width">
           <el-input v-model="dialog_form.title" style="width: 260px" autocomplete="off"></el-input>
         </el-form-item>
@@ -74,9 +78,9 @@
             <el-collapse-item title="">
               <el-upload
                   action="https://jsonplaceholder.typicode.com/posts/"
-                  :file-list="detail_file_list"
+                  :file-list="detail_img_file_list"
                   :http-request="upload_file"
-                  :on-change="detail_file_change"
+                  :on-change="detail_img_file_change"
                   list-type="picture-card">
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
@@ -139,7 +143,7 @@ export default {
       }
     },
     //el-upload 回调函数
-    detail_file_change(file, file_list) {
+    detail_img_file_change(file, file_list) {
       if (file.status === "success") {
         let tmp = []
         for (let i = 0; i < file_list.length; i++) {
@@ -149,7 +153,7 @@ export default {
             tmp.push({url: file_list[i].url})
           }
         }
-        this.$set(this, 'detail_upload_list', tmp)
+        this.$set(this, 'detail_img_upload_list', tmp)
       }
     },
 
@@ -170,6 +174,19 @@ export default {
         })
       }
     },
+    plus_goods() {
+      let obj = this.dialog_form
+      obj.id = 0
+      obj.title = ''
+      obj.desc = ''
+      obj.template = ''
+      obj.banner = []
+      obj.detail_img = []
+      this.$set(this, 'banner_file_list', [])
+      this.$set(this, 'detail_img_file_list', [])
+      this.$set(this, 'dialog_form', obj)
+      this.$set(this, 'dialog_form_visible', true)
+    },
     search() {
       this.$set(this, 'search_loading', true)
       this.$set(this, 'table_loading', true)
@@ -179,7 +196,7 @@ export default {
     },
     dialog_close() {
       this.$set(this, 'banner_file_list', [])
-      this.$set(this, 'detail_file_list', [])
+      this.$set(this, 'detail_img_file_list', [])
     },
     open_goods(row) {
       let dialog_form = this.dialog_form
@@ -196,7 +213,7 @@ export default {
       for (let i = 0; i < row.detail_img.length; i++) {
         imgList.push({url: row.detail_img[i]})
       }
-      this.$set(this, 'detail_file_list', imgList)
+      this.$set(this, 'detail_img_file_list', imgList)
 
       this.$set(this, 'dialog_form', dialog_form)
       this.$set(this, 'dialog_form_visible', true)
@@ -207,13 +224,13 @@ export default {
       search_title: '裤子零食',
       search_loading: false,
       table_loading: false,
-      limit: 6,
+      limit: 5,
       offset: 0,
       current_page: 0,
 
       //HTTP参数
       banner_upload_list: [],
-      detail_upload_list: [],
+      detail_img_upload_list: [],
 
       //仅用于el-upload首次加载的数组
       banner_file_list: [{
@@ -221,7 +238,7 @@ export default {
       }, {
         url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
       }],
-      detail_file_list: [{
+      detail_img_file_list: [{
         url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
       }, {
         url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
