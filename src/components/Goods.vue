@@ -134,6 +134,7 @@ export default {
     },
     //el-upload 回调函数
     banner_file_change(file, file_list) {
+      console.log("on-change")
       if (file.status === "success") {
         let tmp = []
         for (let i = 0; i < file_list.length; i++) {
@@ -203,7 +204,22 @@ export default {
       this.$set(this, 'detail_img_file_list', [])
     },
     btn_save() {
-
+      let param = {
+        id: this.dialog_form.id,
+        title: this.dialog_form.title,
+        desc: this.dialog_form.desc,
+        template: this.dialog_form.template,
+        banner: this.banner_upload_list,
+        detail_img: this.detail_img_upload_list
+      }
+      this.$http.put(this.server + "/goods", param).then(response => {
+        if (response.body.code === 0) {
+          this.$message({
+            type: 'success',
+            message: "保存成功"
+          })
+        }
+      })
     },
     btn_add() {
       let param = {
@@ -214,7 +230,7 @@ export default {
         detail_img: this.detail_img_upload_list
       }
       this.$http.post(this.server + "/goods", param).then(response => {
-        if (response.body.code == 0) {
+        if (response.body.code === 0) {
           this.$message({
             type: 'success',
             message: "添加成功"
@@ -228,16 +244,23 @@ export default {
       dialog_form.title = row.title;
       dialog_form.template = row.template;
       dialog_form.desc = row.desc
+
+      this.banner_upload_list = []
+      this.detail_img_upload_list = []
       let imgList = []
       for (let i = 0; i < row.banner.length; i++) {
         imgList.push({url: row.banner[i]})
+        this.banner_upload_list.push(row.banner[i])
       }
       this.$set(this, 'banner_file_list', imgList)
+      // this.$set(this, 'banner_upload_list', imgList)
       imgList = []
       for (let i = 0; i < row.detail_img.length; i++) {
         imgList.push({url: row.detail_img[i]})
+        this.detail_img_upload_list.push(row.detail_img[i])
       }
       this.$set(this, 'detail_img_file_list', imgList)
+      // this.$set(this, 'detail_img_upload_list', imgList)
 
       this.$set(this, 'dialog_form', dialog_form)
       this.$set(this, 'dialog_form_visible', true)
