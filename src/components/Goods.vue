@@ -89,8 +89,12 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialog_form_visible = false">取 消</el-button>
-        <el-button type="primary" @click="dialog_form_visible = false">保 存</el-button>
+        <el-button type="primary" @click="dialog_form_visible = false" v-if="dialog_form.id!==0"
+                   @click.native="btn_save">保 存
+        </el-button>
+        <el-button type="primary" @click="dialog_form_visible = false" v-if="dialog_form.id===0"
+                   @click.native="btn_add">添加
+        </el-button>
       </div>
     </el-dialog>
   </div>
@@ -134,9 +138,9 @@ export default {
         let tmp = []
         for (let i = 0; i < file_list.length; i++) {
           if (file_list[i].raw !== undefined && file_list[i].status === "success") {
-            tmp.push({url: file_list[i].raw.url})
+            tmp.push(file_list[i].raw.url)
           } else {
-            tmp.push({url: file_list[i].url})
+            tmp.push(file_list[i].url)
           }
         }
         this.$set(this, 'banner_upload_list', tmp)
@@ -148,9 +152,9 @@ export default {
         let tmp = []
         for (let i = 0; i < file_list.length; i++) {
           if (file_list[i].raw !== undefined && file_list[i].status === "success") {
-            tmp.push({url: file_list[i].raw.url})
+            tmp.push(file_list[i].raw.url)
           } else {
-            tmp.push({url: file_list[i].url})
+            tmp.push(file_list[i].url)
           }
         }
         this.$set(this, 'detail_img_upload_list', tmp)
@@ -197,6 +201,26 @@ export default {
     dialog_close() {
       this.$set(this, 'banner_file_list', [])
       this.$set(this, 'detail_img_file_list', [])
+    },
+    btn_save() {
+
+    },
+    btn_add() {
+      let param = {
+        title: this.dialog_form.title,
+        desc: this.dialog_form.desc,
+        template: this.dialog_form.template,
+        banner: this.banner_upload_list,
+        detail_img: this.detail_img_upload_list
+      }
+      this.$http.post(this.server + "/goods", param).then(response => {
+        if (response.body.code == 0) {
+          this.$message({
+            type: 'success',
+            message: "添加成功"
+          })
+        }
+      })
     },
     open_goods(row) {
       let dialog_form = this.dialog_form
