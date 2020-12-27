@@ -124,7 +124,6 @@ export default {
           let obj = response.body.data.goods[i]
           obj.banner = JSON.parse(obj.banner)
           obj.detail_img = JSON.parse(obj.detail_img)
-          // obj.template = JSON.parse(obj.template)
           this.$set(this, 'table_data', i, obj)
         }
         this.$set(this, 'table_data', response.body.data.goods)
@@ -337,5 +336,7 @@ export default {
 <style scoped>
 .content {
   height: 96%;
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -7,6 +7,7 @@ import Summary from './components/Summary'
 import Goods from './components/Goods'
 import SubGoods from './components/SubGoods'
 import VueResource from 'vue-resource'
+import Order from './components/Order'
 import JsonViewer from 'vue-json-viewer'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -28,6 +29,8 @@ let router = new VueRouter({
             path: '/goods', component: Goods
         }, {
             path: '/subGoods', component: SubGoods
+        }, {
+            path: '/order', component: Order
         }
     ]
 })

@@ -76,9 +76,11 @@ export default {
           this.$router.push("/user")
         } else if (index === "0") {
           this.$router.push("/summary")
+        } else if (index === "2-1") {
+          this.$router.push("/order")
         } else if (index === "3-1") {
           this.$router.push("/goods")
-        }else if (index === "3-2") {
+        } else if (index === "3-2") {
           this.$router.push("/subGoods")
         }
         this.$set(this, "drawer", false)
