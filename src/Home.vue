@@ -2,8 +2,22 @@
   <div class="content">
     <div class="nav">
       <el-button icon="el-icon-s-fold" @click="open_menu"></el-button>
-      <el-divider></el-divider>
+      <el-button type="text" style="margin-right: 20px" @click="open_login">登录</el-button>
+      <el-dialog title="登录" width="30%" :visible.sync="login_dialog_visible">
+        <el-form :model="login_info">
+          <el-form-item >
+            <el-input v-model="login_info.user" style="width:100%;" placeholder="用户名"></el-input>
+            <div style="height: 10px"></div>
+            <el-input show-password v-model="login_info.password" style="width: 100%;" placeholder="密码"></el-input>
+            <div style="height: 10px"></div>
+            <div style="width: 100%;display: flex;justify-content: center">
+              <el-button type="primary"  icon="el-icon-user" style="width: 100px;">登录</el-button>
+            </div>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </div>
+    <el-divider></el-divider>
     <div class="main">
       <router-view></router-view>
     </div>
@@ -64,9 +78,17 @@ export default {
   name: "Home",
   data() {
     return {
-      drawer: false
+      drawer: false,
+      login_dialog_visible: false,
+      login_info: {
+        user: '',
+        password: '',
+      }
     }
   }, methods: {
+    open_login() {
+      this.$set(this, 'login_dialog_visible', true)
+    },
     open_menu() {
       this.$set(this, "drawer", true)
     }, select_menu(index) {
@@ -102,6 +124,8 @@ export default {
   padding: 10px;
   color: white;
   flex: 0;
+  display: flex;
+  justify-content: space-between;
 }
 
 .main {

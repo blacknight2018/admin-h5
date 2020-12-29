@@ -5,7 +5,7 @@
       <el-table-column label="收货人" prop="nick_name" width="120"></el-table-column>
       <el-table-column label="联系电话" prop="phone" width="160"></el-table-column>
       <el-table-column label="总计金额" prop="total_price" width="160"></el-table-column>
-      <el-table-column label="收货地址" prop="detail" width="160"></el-table-column>
+      <el-table-column label="收货地址" prop="detail" width="320"></el-table-column>
       <el-table-column label="创建时间" prop="create_time"></el-table-column>
     </el-table>
     <el-pagination
@@ -24,7 +24,7 @@ export default {
   name: "Order",
   data() {
     return {
-      limit: 8,
+      limit: 11,
       offset: 0,
       total: 0,
       current_page: 0,
