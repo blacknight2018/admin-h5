@@ -117,6 +117,7 @@ export default {
             type: "success"
           })
           this.$set(this, 'dialog_visible', false)
+          this.option_change(this.value)
         }
       })
     },

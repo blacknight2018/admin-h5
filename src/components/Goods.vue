@@ -250,6 +250,8 @@ export default {
             type: 'success',
             message: "添加成功"
           })
+          this.$set(this, 'search_title', this.dialog_form.title)
+          this.search();
         }
       })
     },
@@ -268,15 +270,12 @@ export default {
         this.banner_upload_list.push(row.banner[i])
       }
       this.$set(this, 'banner_file_list', imgList)
-      // this.$set(this, 'banner_upload_list', imgList)
       imgList = []
       for (let i = 0; i < row.detail_img.length; i++) {
         imgList.push({url: row.detail_img[i]})
         this.detail_img_upload_list.push(row.detail_img[i])
       }
       this.$set(this, 'detail_img_file_list', imgList)
-      // this.$set(this, 'detail_img_upload_list', imgList)
-
       this.$set(this, 'dialog_form', dialog_form)
       this.$set(this, 'dialog_form_visible', true)
     }
