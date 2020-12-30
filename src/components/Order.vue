@@ -1,13 +1,24 @@
 <template>
   <div class="content">
-    <el-table :data="table_data" style="width: 100%;flex: 1" v-loading="table_loading">
-      <el-table-column label="ID" prop="id" width="80"></el-table-column>
-      <el-table-column label="收货人" prop="nick_name" width="120"></el-table-column>
-      <el-table-column label="联系电话" prop="phone" width="160"></el-table-column>
-      <el-table-column label="总计金额" prop="total_price" width="160"></el-table-column>
-      <el-table-column label="收货地址" prop="detail" width="320"></el-table-column>
-      <el-table-column label="创建时间" prop="create_time"></el-table-column>
-    </el-table>
+    <div style="width: 100%;flex: 1;height: 100%;overflow-y: scroll">
+      <el-table :data="table_data" v-loading="table_loading">
+        <el-table-column label="ID" prop="id" width="80"></el-table-column>
+        <el-table-column label="收货人" prop="nick_name" width="120"></el-table-column>
+        <el-table-column label="联系电话" prop="phone" width="160"></el-table-column>
+        <el-table-column label="总计金额" prop="total_price" width="160"></el-table-column>
+        <el-table-column label="收货地址" prop="detail" width="320"></el-table-column>
+        <el-table-column label="创建时间" prop="create_time"></el-table-column>
+        <el-table-column label="状态">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.status===0" type="info">未支付</el-tag>
+            <el-tag v-else-if="scope.row.status===1" type="success">已支付</el-tag>
+            <el-tag v-else-if="scope.row.status===2" type="danger">未发货</el-tag>
+            <el-tag v-else-if="scope.row.status===3" type="warning">已发货</el-tag>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
     <el-pagination
         @current-change="current_change"
         style="flex:0"

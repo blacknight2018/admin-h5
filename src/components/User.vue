@@ -5,31 +5,34 @@
       <el-button icon="el-icon-search" style="flex:0;margin-left: 20px;" @click="search"
                  :loading="search_loading"></el-button>
     </div>
-    <el-table
-        v-loading="table_loading"
-        :data="table_data"
-        style="width: 100%;flex:1">
-      <el-table-column label="" width="100">
-        <template slot-scope="scope">
-          <el-image :src="scope.row.avatar" style="width: 50px;height: 50px;"></el-image>
-        </template>
-      </el-table-column>
-      <el-table-column label="ID" width="80" prop="id"></el-table-column>
-      <el-table-column
-          prop="create_time"
-          label="创建日期"
-          width="180">
-      </el-table-column>
-      <el-table-column
-          prop="nick_name"
-          label="姓名"
-          width="180">
-      </el-table-column>
-      <el-table-column
-          prop="phone"
-          label="手机号码">
-      </el-table-column>
-    </el-table>
+    <div style="width: 100%;flex:1;overflow-y: scroll">
+      <el-table
+          v-loading="table_loading"
+          :data="table_data"
+      >
+        <el-table-column label="" width="100">
+          <template slot-scope="scope">
+            <el-image :src="scope.row.avatar" style="width: 50px;height: 50px;"></el-image>
+          </template>
+        </el-table-column>
+        <el-table-column label="ID" width="80" prop="id"></el-table-column>
+        <el-table-column
+            prop="create_time"
+            label="创建日期"
+            width="180">
+        </el-table-column>
+        <el-table-column
+            prop="nick_name"
+            label="姓名"
+            width="180">
+        </el-table-column>
+        <el-table-column
+            prop="phone"
+            label="手机号码">
+        </el-table-column>
+      </el-table>
+    </div>
+
     <el-pagination
         @current-change="current_change"
         style="flex:0"

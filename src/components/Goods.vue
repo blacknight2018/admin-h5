@@ -9,29 +9,32 @@
     <div>
       <el-button type="primary" icon="el-icon-circle-plus" size="medium" @click="plus_goods">添加</el-button>
     </div>
-    <el-table :data="table_data" style="width: 100%" @row-click="open_goods" v-loading="table_loading">
-      <el-table-column label="" width="100">
-        <template slot-scope="scope">
-          <el-image :src="scope.row.banner[0]" style="width: 50px;height: 50px;"></el-image>
-        </template>
-      </el-table-column>
-      <el-table-column prop="id" label="ID" width="80">
+    <div style="width: 100%;flex:1;overflow-y: scroll">
+      <el-table :data="table_data" style="width: 100%" @row-click="open_goods" v-loading="table_loading">
+        <el-table-column label="" width="100">
+          <template slot-scope="scope">
+            <el-image :src="scope.row.banner[0]" style="width: 50px;height: 50px;"></el-image>
+          </template>
+        </el-table-column>
+        <el-table-column prop="id" label="ID" width="80">
 
-      </el-table-column>
-      <el-table-column prop="title" label="名称" width="180">
+        </el-table-column>
+        <el-table-column prop="title" label="名称" width="180">
 
-      </el-table-column>
+        </el-table-column>
 
-      <el-table-column prop="desc" label="描述" width="180">
+        <el-table-column prop="desc" label="描述" width="180">
 
-      </el-table-column>
+        </el-table-column>
 
-      <el-table-column label="创建时间" prop="create_time">
+        <el-table-column label="创建时间" prop="create_time">
 
-      </el-table-column>
+        </el-table-column>
 
 
-    </el-table>
+      </el-table>
+    </div>
+
     <el-pagination
         @current-change="current_change"
         style="flex:0"
