@@ -5,13 +5,13 @@
       <el-button type="text" style="margin-right: 20px" @click="open_login">登录</el-button>
       <el-dialog title="登录" width="30%" :visible.sync="login_dialog_visible">
         <el-form :model="login_info">
-          <el-form-item >
+          <el-form-item>
             <el-input v-model="login_info.user" style="width:100%;" placeholder="用户名"></el-input>
             <div style="height: 10px"></div>
             <el-input show-password v-model="login_info.password" style="width: 100%;" placeholder="密码"></el-input>
             <div style="height: 10px"></div>
             <div style="width: 100%;display: flex;justify-content: center">
-              <el-button type="primary"  icon="el-icon-user" style="width: 100px;">登录</el-button>
+              <el-button type="primary" icon="el-icon-user" style="width: 100px;">登录</el-button>
             </div>
           </el-form-item>
         </el-form>
@@ -67,6 +67,17 @@
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+          <el-submenu index="4">
+            <template slot="title">
+              <i class="el-icon-s-home"></i>
+              <span>主页设置</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="4-1">
+                轮播图
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
         </el-menu>
       </div>
     </el-drawer>
@@ -104,6 +115,8 @@ export default {
           this.$router.push("/goods")
         } else if (index === "3-2") {
           this.$router.push("/subGoods")
+        } else if (index === "4-1") {
+          this.$router.push("/banner")
         }
         this.$set(this, "drawer", false)
       }
