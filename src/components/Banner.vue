@@ -114,6 +114,7 @@ export default {
       this.$http.put(this.server + "/home/banner", param).then(response => {
         if (response.body.code === 0) {
           this.$message({message: "保存成功"})
+          this.get_data();
         }
       })
     },
@@ -125,8 +126,10 @@ export default {
       this.$set(this, 'dialog_form_visible', false)
       this.$http.post(this.server + "/home/banner", param).then(response => {
         if (response.body.code === 0) {
-          this.$message({message: "保存成功"})
+          this.$message({message: "添加成功"})
+          this.get_data();
         }
+
       })
     },
     dialog_close() {
