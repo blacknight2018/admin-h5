@@ -107,7 +107,7 @@ export default {
     btn_save() {
       let param = {
         id: this.dialog_form.id,
-        sub_goods_id: this.dialog_form.sub_goods_id,
+        sub_goods_id: Number(this.dialog_form.sub_goods_id),
         img: this.dialog_form.img
       };
       this.$set(this, 'dialog_form_visible', false)

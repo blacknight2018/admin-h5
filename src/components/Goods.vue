@@ -233,6 +233,8 @@ export default {
             type: 'success',
             message: "保存成功"
           })
+          this.$set(this, 'search_title', this.dialog_form.title)
+          this.search();
         }
       })
     },
