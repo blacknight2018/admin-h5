@@ -108,6 +108,10 @@
 
 export default {
   name: "Goods",
+  mounted() {
+    this.$set(this, 'search_title', '')
+    this.search()
+  },
   methods: {
     current_change(i) {
       this.$set(this, 'table_loading', true)

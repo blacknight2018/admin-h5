@@ -239,12 +239,13 @@ export default {
           let obj = response.body.data[i]
           tmp.id = obj.id;
           tmp.title = obj.title
-          console.log(obj.id, obj.template)
           tmp.template = JSON.parse(obj.template)
           this.options.push(tmp)
+          console.log(this.options)
         }
-        this.$set(this, 'value', 1)
         this.$set(this, 'options', this.options)
+        this.$set(this, 'value', 0)
+        this.option_change(0)
       }
     })
   },
@@ -255,7 +256,7 @@ export default {
       options: [{
         id: '选项1',
         title: '黄金糕',
-        template: []
+        template: [1,2]
       }],
 
       //HTTP参数
